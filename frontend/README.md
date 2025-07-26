@@ -1,12 +1,111 @@
-# React + Vite
+# Movie Explorer - React Movie Database
+https://screenshot.png
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Movie Explorer is a modern, responsive web application that allows users to discover, search, and explore movies using the TMDB API. Built with React and React Router, this application showcases popular movies, provides detailed information about each film, and offers a seamless user experience.
 
-Currently, two official plugins are available:
+# Features
+🎬 Popular Movie Listings - Browse trending movies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔍 Advanced Search - Find movies by title, genre, or year
 
-## Expanding the ESLint configuration
+🎥 Movie Details - Comprehensive information about each film
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+❤️ Favorites System - Save your favorite movies
+
+📱 Fully Responsive - Works on mobile, tablet, and desktop
+
+🌓 Dark/Light Mode - Choose your preferred theme
+
+⚡ Performance Optimized - Fast loading with lazy components
+
+# Live Demo
+Check out the live demo: Movie Explorer Live
+
+# Technologies Used
+Frontend: React 18, React Router 6
+
+State Management: React Context API
+
+Styling: CSS Modules, Flexbox, Grid
+
+API: The Movie Database (TMDB) API
+
+Build Tool: Vite
+
+Deployment: vercel
+
+# Getting Started
+Follow these instructions to set up the project locally on your machine.
+
+# Prerequisites
+Node.js (v14 or higher)
+
+npm (v7 or higher)
+
+TMDB API key (free at themoviedb.org)
+
+# Installation
+Clone the repository:
+
+bash
+git clone https://github.com/yourusername/movie-explorer.git
+cd movie-explorer
+Install dependencies:
+
+bash
+npm install
+Create environment file:
+Create a .env.local file in the root directory and add your TMDB API key:
+
+env
+VITE_TMDB_API_KEY=your_api_key_here
+Run the development server:
+
+bash
+npm run dev
+Open in your browser:
+
+text
+http://localhost:5173
+Available Scripts
+npm run dev: Start development server
+
+npm run build: Create production build
+
+npm run lint: Run ESLint for code quality
+
+npm run preview: Preview production build locally
+
+# Project Structure 
+
+movie-explorer/
+├── public/                  # Static assets
+├── src/
+│   ├── assets/              # Images, icons, etc.
+│   ├── components/          # Reusable components
+│   │   ├── MovieCard.jsx
+│   │   ├── SearchBar.jsx
+│   │   ├── Navbar.jsx
+│   │   └── ...
+│   ├── context/             # Context providers
+│   │   ├── MovieContext.jsx
+│   │   └── ThemeContext.jsx
+│   ├── hooks/               # Custom hooks
+│   │   ├── useMovies.jsx
+│   │   └── useLocalStorage.jsx
+│   ├── pages/               # Page components
+│   │   ├── Home.jsx
+│   │   ├── Movies.jsx
+│   │   ├── MovieDetail.jsx
+│   │   └── ...
+│   ├── services/            # API services
+│   │   └── tmdb.js
+│   ├── styles/              # Global styles
+│   ├── utils/               # Helper functions
+│   ├── App.jsx              # Main application
+│   └── main.jsx             # Entry point
+├── .env.local               # Environment variables
+├── .eslintrc.json           # ESLint configuration
+├── .gitignore
+├── package.json
+└── README.md

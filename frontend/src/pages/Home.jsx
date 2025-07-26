@@ -1,61 +1,57 @@
-import {useState} from "react"
 import MovieCard from "../components/MovieCard";
-import { searchMovies, getPopularMovies } from "../servces/api";
-import "../css/home.css"
+import { useState, useEffect } from "react";
+import { searchMovies, getPopularMovies } from "../services/api";
+import "../css/Home.css";
 
-function Home(){
-    const [searchQuery, setSearchQuery] = useState("");
+function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    const handleSearch = (e) =>{
-        e.preventDefault();
-        alert(searchQuery);
+  useEffect(() => {
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        console.log(err);
+        setError("Failed to load movies...");
+      } finally {
+        setLoading(false);
+      }
     };
 
+    loadPopularMovies();
+  }, []);
 
-    const [movies, setMovies] = useState([]);
-    const [loading, setLoading]= useState(true);
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    
+  };
 
-    useEffect(() => {
-        console.log("Fetching movie data...");
-        fetch('https://api.themoviedb.org/3/movie/popular')
-            .then(response => response.json())
-            .then(data => {
-                setMovies(data.results);
-                setLoading(false);
-            })
-    }, []);
+  return (
+    <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Search for movies..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
 
-    if (loading) return <div>Loading movies...</div>;
-
-    fetch('https://api.themoviedb.org/3/movie/popular')
-      .then(response => response.json())
-      .then(data => {
-        setMovies(data.results);
-        setLoading(false);
-      })
-
-
-    return (
-        <div className="home">
-            <form onSubmit={handleSearch} className="search-form">
-                <input 
-                    type="text" 
-                    className="search-input" 
-                    placeholder="Search for Movies..." 
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}/>
-                <button type="submit" className="search-button">Search</button>
-            </form>
-
-            <div className="movies-grid">
-                {
-                    movies.map((movie) => (
-                        <MovieCard movie={movie} key={movie.id} />
-                    ))
-                } 
-            </div>
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} key={movie.id} />
+          ))}
         </div>
-    )
+    </div>
+  );
 }
 
-export default Home
+export default Home;
