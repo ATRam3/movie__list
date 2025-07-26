@@ -1,18 +1,26 @@
+import "../css/MovieCard.css"
 function MovieCard({movie}){
 
     function onFavoriteClick(){
         alert("clicked");
     }
     return(
-        <div className="movie__card">
-            <div className="movie__poster">
+        <div className="movie-card">
+            <div className="movie-poster">
                 <img src={movie.url} alt={movie.title} />
-                <div className="movie__overlay">
-                    <button className="favorite__btn" onClick={onFavoriteClick}>
-
+                <div className="movie-overlay">
+                    <button className="favorite-btn" onClick={onFavoriteClick}>
+                        ♥
                     </button>
+                </div>
+
+                <div className="movie-info">
+                    <h3>{movie.title}</h3>
+                    <p>{movie.release__date}</p>
                 </div>
             </div>
         </div>
     )
 }
+
+export default MovieCard
