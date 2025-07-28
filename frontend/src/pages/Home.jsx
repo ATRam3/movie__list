@@ -4,7 +4,7 @@ import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css";
 
 function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
+  
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,8 +25,33 @@ function Home() {
     loadPopularMovies();
   }, []);
 
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  /* const movies = [
+    {id: 1, title: "terminator", release__date: "2020"},
+    {id: 2, title: "the venom", release__date: "2010"},
+    {id: 3, title: "shrek", release__date: "2003"}
+  ] */
+
   const handleSearch = async (e) => {
     e.preventDefault();
+
+    if(!searchQuery.trim()) return
+    if(loading) return
+
+    setLoading(true);
+
+    try{
+      const searchResults = await searchMovies(searchQuery);
+      setMovies(searchResults);
+      setError(null);
+    } catch(err) {
+      console.log(err)
+      setError("Failed to search movies...");
+    } finally {
+      setLoading(false);
+    }
     
   };
 
@@ -45,11 +70,18 @@ function Home() {
         </button>
       </form>
 
+
+      {error && <div className="error-message"> {error}</div>}
+
+      {loading ? (<div className="loading">Loading...</div>) : (
         <div className="movies-grid">
           {movies.map((movie) => (
             <MovieCard movie={movie} key={movie.id} />
           ))}
         </div>
+      )}
+
+        
     </div>
   );
 }
