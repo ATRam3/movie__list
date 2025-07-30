@@ -51,7 +51,8 @@ function Home() {
       setError("Failed to search movies...");
     } finally {
       setLoading(false);
-    }
+     }
+
     
   };
 
