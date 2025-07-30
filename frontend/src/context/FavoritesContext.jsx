@@ -1,12 +1,16 @@
-import { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-const FavoritesContent = createContext();
+const FavoritesContext = createContext();
 
-function useFavorites (){
-    return useContext(FavoritesContent);
-}
+export const useFavorites = () => {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error('useFavorites must be used within a FavoritesProvider');
+  }
+  return context;
+};
 
-function FavoritesProvider ({children}){
+export const FavoriteProvider =  ({children}) => {
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
@@ -26,4 +30,25 @@ function FavoritesProvider ({children}){
             setFavorites(prev => [...prev, movie]);
         }
     }
-}
+
+    const removeFavorite = (movieId) => {
+        setFavorites(prev => prev.filter(movie => movie.id !== movieId));
+    };
+
+    const isFavorite = (movieId) => {
+        return favorites.some(movie => movie.id === movieId)
+    };  
+
+    const value = {
+        favorites, 
+        addFavorite,
+        removeFavorite,
+        isFavorite
+    };
+
+    return (
+        <FavoritesContext.Provider value={value}>
+            {children}
+        </FavoritesContext.Provider>
+    );
+};

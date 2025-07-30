@@ -53,7 +53,6 @@ function Home() {
       setLoading(false);
      }
 
-    
   };
 
   return (

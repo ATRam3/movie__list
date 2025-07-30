@@ -17,5 +17,30 @@ export const searchMovies = async (query) => {
   return data.results;
 };
 
+export const getMovieDetails = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos`
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+    throw error;
+  }
+};
+
+export const getMovieTrailer = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`
+    );
+    const data = await response.json();
+    return data.results.find(video => video.type === "Trailer");
+  } catch (error) {
+    console.error("Error fetching trailer:", error);
+    return null;
+  }
+};
+
 
 
