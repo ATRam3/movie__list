@@ -7,7 +7,7 @@ import MovieDetail from './pages/MovieDetail';
 
 function App() {
   return (
-    <div>
+    <div className='body'>
       <Navbar />
       <main className='main__content'>
         <Routes>

@@ -28,6 +28,14 @@ body {
   width: 100%;
   min-height: 100vh;
   position: relative;
+  background: linear-gradient(
+    45deg,
+    black,
+    rgb(31, 31, 31),
+    rgb(44, 44, 44) 50%,
+    rgb(27, 27, 27),
+    black
+  );
 }
 
 #root {

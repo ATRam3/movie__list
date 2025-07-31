@@ -1,12 +1,6 @@
 .movie-card {
-  position: relative;
-  border-radius: 8px;
   overflow: hidden;
-  background-color: #1a1a1a;
-  transition: transform 0.2s;
-  height: 910px;
-  display: flex;
-  flex-direction: column;
+  border-radius: 13px;
 }
 
 .movie-card:hover {
@@ -14,15 +8,16 @@
 }
 
 .movie-poster {
-  position: relative;
-  aspect-ratio: 2/3;
+  height: 100%;
   width: 100%;
+  z-index: -1;
 }
 
-.movie-poster img {
+.movie-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  z-index: 1
 }
 
 .movie-overlay {
@@ -63,7 +58,6 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  z-index: 100;
 }
 
 .favorite-btn:hover {
@@ -90,6 +84,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  z-index: 100;
 }
 
 .movie-info h3 {

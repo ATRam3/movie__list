@@ -1,7 +1,9 @@
+
 import MovieCard from "../components/MovieCard";
 import { useState, useEffect } from "react";
 import { searchMovies, getPopularMovies } from "../services/api";
 import "../css/Home.css";
+import { MdOutlineSearch } from "react-icons"
 
 function Home() {
   
@@ -25,49 +27,28 @@ function Home() {
     loadPopularMovies();
   }, []);
 
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  /* const movies = [
+   /* const movies = [
     {id: 1, title: "terminator", release__date: "2020"},
     {id: 2, title: "the venom", release__date: "2010"},
     {id: 3, title: "shrek", release__date: "2003"}
   ] */
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-
-    if(!searchQuery.trim()) return
-    if(loading) return
-
-    setLoading(true);
-
-    try{
-      const searchResults = await searchMovies(searchQuery);
-      setMovies(searchResults);
-      setError(null);
-    } catch(err) {
-      console.log(err)
-      setError("Failed to search movies...");
-    } finally {
-      setLoading(false);
-     }
-
-  };
-
   return (
     <div className="home">
       <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          placeholder="Search for movies..."
-          className="search-input"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">
-          Search
-        </button>
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search for movies..."
+            className="search-input"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="search-button">
+            <FaSearch  className="search-icon"/>
+            <MdOutlineSearch />
+          </button>
+        </div>
       </form>
 
 
