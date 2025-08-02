@@ -4,6 +4,7 @@ import { FaHeart, FaRegHeart, FaPlay, FaArrowLeft } from 'react-icons/fa';
 import { getMovieDetails, getMovieTrailer } from '../services/api';
 import TrailerModal from '../components/TrailerModal';
 import "../css/MovieDetail.css";
+import { useFavorites } from '../context/FavoritesContext';
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -11,8 +12,26 @@ const MovieDetail = () => {
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [showTrailerModal, setShowTrailerModal] = useState(false);
+
+
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
+  const favorite = movie ? isFavorite(movie.id) : false;
+
+  const toggleFavorites = () => {
+    if(!movie) return;
+    
+    if (favorite) {
+      removeFavorite(movie.id);
+    } else {
+      addFavorite ({
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +51,6 @@ const MovieDetail = () => {
           const trailerData = await getMovieTrailer(id);
           setTrailer(trailerData);
         }
-        
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-        setIsFavorite(!!favorites[id]);
       } catch (error) {
         console.error("Failed to load movie data:", error);
         navigate('/', { replace: true });
@@ -45,24 +61,6 @@ const MovieDetail = () => {
 
     fetchData();
   }, [id, navigate]);
-
-  const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-    
-    if (isFavorite) {
-      delete favorites[id];
-    } else {
-      favorites[id] = {
-        id: movie.id,
-        title: movie.title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date
-      };
-    }
-    
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-  };
 
   if (isLoading) {
     return (
@@ -144,9 +142,9 @@ const MovieDetail = () => {
             </div>
             
             <button
-              onClick={toggleFavorite}
-              className={`favorite-button ${isFavorite ? 'active' : ''}`}
-              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+              onClick={toggleFavorites}
+              className={`favorite-button ${favorite ? 'active' : ''}`}
+              aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
             >
               {isFavorite ? <FaHeart /> : <FaRegHeart />}
             </button>
